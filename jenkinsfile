@@ -3,7 +3,7 @@ pipeline {
     stages {
             stage ('git checkout') {
                 steps {
-                    git url: 'https://github.com/nallanianusha/spring-petclinic.git'
+                    git url: 'https://github.com/nallanianusha/spring-petclinic.git',
                         branch: 'main'
                 }
             }
