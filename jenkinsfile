@@ -1,6 +1,6 @@
 pipeline {
     agent {label 'SPC'}
-        stages {
+    stages {
             stage ('git checkout') {
                 steps {
                     git url: 'https://github.com/nallanianusha/spring-petclinic.git'
