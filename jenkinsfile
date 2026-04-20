@@ -1,24 +1,27 @@
 pipeline {
     agent {label 'SPC'}
+
     stages {
-            stage ('git checkout') {
-                steps {
-                    git url: 'https://github.com/nallanianusha/spring-petclinic.git',
-                        branch: 'main'
-                }
+        stage('git checkout') {
+            steps {
+                git branch: 'main', url: 'https://github.com/nallanianusha/spring-petclinic.git'
             }
-            stage ('build and scan') {
-                steps {
-                  withCredentials([string(credentialsId: 'sonar-id', variable: 'SONAR_TOKEN')]) {
-                      withSonarQubeEnv('sonar') {
-                          sh """mvn package sonar:sonar'
-                          -Dsonar.projectKey= nallanianusha_spring-petclinic\
-                          -Dsonar.organization=nallanianusha \
-                          -Dsonar.host.url=https://sonarcloud.io/ \
-                          -Dsonar.login=$SONAR_TOKEN """
-                      }   
+        }
+
+        stage('build and scan') {
+            steps {
+                withCredentials([string(credentialsId: 'sonar-id', variable: 'SONAR_TOKEN')]) {
+                    withSonarQubeEnv('sonar') {
+                        sh """
+                        mvn package sonar:sonar \
+                        -Dsonar.projectKey=nallanianusha_spring-petclinic \
+                        -Dsonar.organization=nallanianusha \
+                        -Dsonar.host.url=https://sonarcloud.io/ \
+                        -Dsonar.login=$SONAR_TOKEN
+                        """
+                    }
                 }
             }
         }
-    }    
+    }
 }
